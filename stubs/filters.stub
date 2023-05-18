@@ -1,0 +1,40 @@
+<?php
+
+namespace {{ namespace }};
+
+use \App\Traits\Filters as FiltersTrait;
+use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
+
+
+/**
+ * In this class you can add your search filters automatically when creating a model. In order to do that, just pass
+ * a flag like any other. For example, php artisan make:model -d. The flag "d" is used because "f" has already been taken.
+ * The filters are called from the controller and the scope is added via Filter trait that each model uses. 
+ * 
+ * IMPORTANT
+ * The method names are actually input field names, while values passed to the methods are values from the input fields.
+ * For more details, check app/Filters/Filters.php and follow the query from the controller to this filter and back.
+ */
+class {{ class }} extends Filters
+{
+    use FiltersTrait;
+
+    protected $request;
+
+/**
+* Although we can use request() in the base filter, it is better to have an option to use custom requests as they provide
+* additional validation of the users' input. That is why we need to set it in this constructor before we use it in the
+* base filter - getFilters.
+*/
+    public function __construct(Request $request){
+        $this->request = $request;
+    }
+
+
+    public function slug(string $slug): Builder 
+    {
+        return $this->builder->where('slug',  $slug);
+    }
+
+}

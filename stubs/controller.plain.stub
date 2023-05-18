@@ -1,0 +1,109 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ rootControllerNameSpace }};
+use Illuminate\Http\Request;
+use App\Repositories\{{ repositoryClassName }};
+use App\Models\{{ modelName }};
+use App\Filters\{{ modelName }}Filters;
+use App\Services\SetLogMessagesAndHttpResponse;
+use Illuminate\Http\JsonResponse;
+
+
+/**
+ * By default, controllers are generated with methods that might be used with repository out of hand. If you want to use them,
+ * uncomment the constructor and methods and execute the following command: php artisan make:repository UserRepository.
+ * If not, just delete the methods and imports that you do not need and write your own. For more info, see README.md.
+ * 
+ * IMPORTANT: Bear in mind that in order to work, the repository name must be: "model name" + "Repository" i.e. UserRepository.
+ */
+class {{ class }} extends Controller
+{
+
+    public function __construct(
+        private {{ modelName }}Repository ${{ repository }},
+        private SetLogMessagesAndHttpResponse $setLogMessagesAndHttpResponse
+    ){}
+
+    
+    public function create(Request $request): JsonResponse 
+    {
+       try {            
+            $response = $this->{{ repository }}->create{{ modelName }}($request);
+            $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogCreatedOneInstance($response);
+        }
+        catch(\Exception $e){
+            $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotCreatedInstance($e);
+        }
+        return response()->json($result->response, $result->http_status);
+    }
+
+
+    public function index(): JsonResponse 
+    {
+       try {
+            $response = $this->{{ repository }}->getAll();
+            $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveInstances($response);
+        }
+        catch(\Exception $e){
+            $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrieveInstances($e);
+        }
+        return response()->json($result->response, $result->http_status);
+    }
+
+
+    public function show(int $id): JsonResponse 
+    {
+        try {
+            $response = $this->{{ repository }}->findById($id);
+            $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveOneInstance($response);
+        }
+        catch(\Exception $e){
+            $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrievedOneInstance($e);
+        }
+        return response()->json($result->response, $result->http_status);
+    }
+
+
+    public function update(Request $request, $id): JsonResponse 
+    {
+        try {
+            $category = $this->{{ repository }}->update{{ modelName }}($id, $request);
+            $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogUpdatedInstance($category);
+        }
+        catch(\Exception $e){
+            $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotUpdatedInstance($e);
+        }        
+        return response()->json($result->response, $result->http_status);
+    }
+
+
+    public function delete($id): JsonResponse 
+    {   
+        try {
+            $response = $this->{{ repository }}->delete{{ modelName }}($id);
+            $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveOneInstance($response);
+        }
+        catch(\Exception $e){
+            $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrievedOneInstance($e);
+        }
+        return response()->json($result->response, $result->http_status);
+    }
+
+
+    protected function filter(Request $request) // validation
+    {   
+         //$request->session()->put('{{ modelName }}FilterInput', $request->input());         
+
+         try {
+            $response = (new {{ modelName }})->filter(new {{ modelName }}Filters($request));
+            $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveInstances($response);
+        }
+        catch(\Exception $e){
+            $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrieveInstances($e);
+        }
+        return response()->json($result->response, $result->http_status);       
+    }
+
+}

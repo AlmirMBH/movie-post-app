@@ -1,0 +1,48 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Models\{{ className }};
+
+/**
+* Replace ->except() with ->validated() after you have added form requests
+*/
+class {{ class }} extends BaseRepository
+{
+    protected $model;
+
+    public function __construct({{ className }} $model){
+        parent::__construct($model);
+    }
+
+
+    public function getAll()
+    {
+        return $this->fetchAll();
+    }
+
+
+    public function find(int $id)
+    {
+        return $this->findById($id);
+    }
+
+
+    public function create{{ className }}($request)
+    {
+        return $this->create($request->except('_method'));
+    }
+
+
+    public function update{{ className }}(int $id, $request)
+    {
+        return $this->update($request->except('_method'), $id);
+    }
+
+
+    public function delete{{ className }}(int $id)
+    {
+        return $this->delete($id);
+    }
+
+}
