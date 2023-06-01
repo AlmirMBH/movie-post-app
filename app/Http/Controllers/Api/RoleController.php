@@ -98,7 +98,7 @@ class RoleController extends Controller
     }
 
 
-    protected function filter(RoleFilterRequest $request) // validation
+    protected function filter(RoleFilterRequest $request): JsonResponse
     {   
         //  $this->authorize('viewAny');         
 

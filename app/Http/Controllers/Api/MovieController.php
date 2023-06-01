@@ -31,8 +31,7 @@ class MovieController extends Controller
     {
     //    $this->authorize('create'); 
 
-       try {            
-            $request->merge(['added_by_id' => $this->userHelper->getLoggedUserId()]);
+       try {
             $response = $this->movieRepository->createMovie($request);
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogCreatedOneInstance($response);
         }
@@ -56,9 +55,11 @@ class MovieController extends Controller
     }
 
 
-    public function show(Movie $movie): JsonResponse {
-        try {            
-            $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveOneInstance($movie);
+    public function show(int $id): JsonResponse
+    {
+        try {
+            $response = $this->movieRepository->find($id);
+            $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveOneInstance($response);
         }
         catch(\Exception $e){
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrievedOneInstance($e);
@@ -98,7 +99,7 @@ class MovieController extends Controller
 
 
         
-    public function favorite(AddFavoriteMovieRequest $request) 
+    public function favorite(AddFavoriteMovieRequest $request): JsonResponse 
     {   
         $user = $this->userHelper->getLoggedUser();
         $movieId = $request->input('movieId');
@@ -133,7 +134,7 @@ class MovieController extends Controller
 
 
 
-    protected function filter(MovieFilterRequest $request) // validation
+    protected function filter(MovieFilterRequest $request): JsonResponse
     {   
          //$request->session()->put('MovieFilterInput', $request->input());         
 

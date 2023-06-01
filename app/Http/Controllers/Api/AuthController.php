@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegisterRequest;
 use App\Models\User;
-use App\Traits\ResponseTrait;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
@@ -21,7 +20,7 @@ class AuthController extends Controller
     }
 
 
-    public function login(UserLoginRequest $request)
+    public function login(UserLoginRequest $request): JsonResponse
     {
         $request->validate([
             'email' => 'required|string|email',

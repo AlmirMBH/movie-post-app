@@ -1,12 +1,14 @@
 <?php
 namespace App\Filters;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 abstract class Filters
 {
     protected $builder;
     protected $filters = [];
 
-    public function apply($threadBuilder)
+    public function apply(Builder $threadBuilder): LengthAwarePaginator
     {
         $this->builder = $threadBuilder;
 
@@ -22,7 +24,7 @@ abstract class Filters
         return $this->builder->paginate($this->request->input('pagination'));
     }
 
-    protected function getFilters()
+    protected function getFilters(): array
     {
         /**
          * For the sake of testing commands, ->except() is used. Function ->validated() requires FormRequest with rules.

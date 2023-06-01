@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Helpers\UserHelper;
 use Illuminate\Foundation\Http\FormRequest;
 
 class MovieAddRequest extends FormRequest
@@ -25,7 +26,8 @@ class MovieAddRequest extends FormRequest
             'title' => 'required|string|max:255',
             'body' => 'required|string',
             'image_id' => 'required|exists:images,id',
-            'director' => 'required|string|max:255',            
+            'director' => 'required|string|max:255',
+            'added_by_id' => UserHelper::getLoggedUserId()
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Helpers\UserHelper;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PostAddRequest extends FormRequest
@@ -26,7 +27,8 @@ class PostAddRequest extends FormRequest
             'description' => 'required|string',
             'body' => 'required|string',
             'subtitle' => 'nullable|string',
-            'movie_id' => 'nullable|integer'
+            'movie_id' => 'nullable|integer',
+            'author_id' => UserHelper::getLoggedUserId()
         ];
     }
 }

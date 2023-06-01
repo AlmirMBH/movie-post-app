@@ -3,42 +3,46 @@
 namespace App\Repositories;
 
 use App\Models\Movie;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 
 class MovieRepository extends BaseRepository
 {
     protected $model;
 
-    public function __construct(Movie $model){
+    public function __construct(Movie $model)
+    {
         parent::__construct($model);
     }
 
 
-    public function getAll()
-    {
-        return $this->fetchAll();
-    }
-
-
-    public function find(int $id)
-    {
-        return $this->findById($id);
-    }
-
-
-    public function createMovie($request)
+    public function createMovie(Request $request): Model
     {
         return $this->create($request->validated());
     }
 
 
-    public function updateMovie(int $id, $request)
+    public function getAll(): Collection
+    {
+        return $this->fetchAll();
+    }
+
+
+    public function find(int $id): Model
+    {
+        return $this->findById($id);
+    }
+
+
+    public function updateMovie(int $id, Request $request): Model
     {
         return $this->update($request->validated(), $id);
     }
 
 
-    public function deleteMovie(int $id)
+    public function deleteMovie(int $id): bool
     {
         return $this->delete($id);
     }

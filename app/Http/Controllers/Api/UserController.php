@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Filters\UserFilters;
 use App\Helpers\UserHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\FavoriteMovieRequest;
 use App\Http\Requests\UserAddRequest;
 use App\Http\Requests\UserFilterRequest;
 use App\Http\Requests\UserUpdateRequest;
@@ -55,10 +54,11 @@ class UserController extends Controller
     }
 
 
-    public function show(User $user): JsonResponse 
+    public function show(int $id): JsonResponse 
     {
-        try {            
-            $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveOneInstance($user);
+        try {
+            $response = $this->userRepository->find($id); 
+            $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveOneInstance($response);
         }
         catch(\Exception $e){
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrievedOneInstance($e);
@@ -93,7 +93,7 @@ class UserController extends Controller
     }
 
     
-    public function favorite(FavoriteMovieRequest $request) //: JsonResponse 
+    public function favorite(): JsonResponse 
     {
         try {
              $userId = $this->userHelper->getLoggedUserId();
@@ -113,7 +113,7 @@ class UserController extends Controller
      }
 
      
-    protected function filter(UserFilterRequest $request) // validation
+    protected function filter(UserFilterRequest $request): JsonResponse
     {   
          //$request->session()->put('UserFilterInput', $request->input());         
 

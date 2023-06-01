@@ -30,8 +30,7 @@ class PostController extends Controller
     {
     //    $this->authorize('create');
 
-       try {        
-            $request->merge(['author_id' => $this->userHelper->getLoggedUserId()]);
+       try {
             $response = $this->postRepository->createPost($request);
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogCreatedOneInstance($response);
         }

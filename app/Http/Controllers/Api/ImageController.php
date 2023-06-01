@@ -24,7 +24,8 @@ class ImageController extends Controller
     }
 
     
-    public function create(ImageAddRequest $request): JsonResponse {
+    public function create(ImageAddRequest $request): JsonResponse 
+    {
        try {            
             $response = $this->imageRepository->createImage($request);
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogCreatedOneInstance($response);
@@ -36,7 +37,8 @@ class ImageController extends Controller
     }
 
 
-    public function index(): JsonResponse {
+    public function index(): JsonResponse 
+    {
        try {
             $response = $this->imageRepository->getAll();
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveInstances($response);
@@ -48,9 +50,11 @@ class ImageController extends Controller
     }
 
 
-    public function show(Image $image): JsonResponse {
+    public function show(int $id): JsonResponse 
+    {
         try {
-            $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveOneInstance($image);
+            $response = $this->imageRepository->find($id);
+            $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveOneInstance($response);
         }
         catch(\Exception $e){
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrievedOneInstance($e);
@@ -59,7 +63,8 @@ class ImageController extends Controller
     }
 
 
-    public function update(ImageUpdateRequest $request, $id): JsonResponse {
+    public function update(ImageUpdateRequest $request, int $id): JsonResponse 
+    {
         try {
             $category = $this->imageRepository->updateImage($id, $request);
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogUpdatedInstance($category);
@@ -71,7 +76,8 @@ class ImageController extends Controller
     }
 
 
-    public function delete($id): JsonResponse {   
+    public function delete(int $id): JsonResponse 
+    {
         try {
             $response = $this->imageRepository->deleteImage($id);
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveOneInstance($response);
@@ -83,7 +89,7 @@ class ImageController extends Controller
     }
 
 
-    protected function filter(ImageFilterRequest $request) // validation
+    protected function filter(ImageFilterRequest $request): JsonResponse
     {   
          //$request->session()->put('ImageFilterInput', $request->input());         
 
