@@ -34,7 +34,7 @@ class UserController extends Controller
             $response = $this->userRepository->createUser($request);
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogCreatedOneInstance($response);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotCreatedInstance($e);
         }
         return response()->json($result->response, $result->http_status);
@@ -47,7 +47,7 @@ class UserController extends Controller
             $response = $this->userRepository->getAll();
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveInstances($response);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrieveInstances($e);
         }
         return response()->json($result->response, $result->http_status);
@@ -60,7 +60,7 @@ class UserController extends Controller
             $response = $this->userRepository->find($id); 
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveOneInstance($response);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrievedOneInstance($e);
         }
         return response()->json($result->response, $result->http_status);
@@ -73,7 +73,7 @@ class UserController extends Controller
             $category = $this->userRepository->updateUser($id, $request);
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogUpdatedInstance($category);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotUpdatedInstance($e);
         }        
         return response()->json($result->response, $result->http_status);
@@ -84,9 +84,9 @@ class UserController extends Controller
     {
         try {
             $response = $this->userRepository->deleteUser($id);
-            $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveOneInstance($response);
+            $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogDeletedOneInstance($response);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrievedOneInstance($e);
         }
         return response()->json($result->response, $result->http_status);
@@ -96,17 +96,17 @@ class UserController extends Controller
     public function favorite(): JsonResponse 
     {
         try {
-             $userId = $this->userHelper->getLoggedUserId();
-             $cacheKey = "user_favorite_movies_{$userId}";
-             $response = $this->userRepository->getFavorite($userId);
+            $userId = $this->userHelper->getLoggedUserId();
+            $cacheKey = "user_favorite_movies_{$userId}";
+            $response = $this->userRepository->getFavorite($userId);
             
-                $response = Cache::remember($cacheKey, 60*60*24, function() use ($response){
-                    return $response;
-                });
-             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveInstances($response);
+            $response = Cache::remember($cacheKey, 60*60*24, function() use ($response){
+                return $response;
+            });
+            $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveInstances($response);
          }
-         catch(\Exception $e){
-             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrieveInstances($e);
+         catch (\Exception $e) {
+            $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrieveInstances($e);
          }
             
         return response()->json($result->response, $result->http_status);
@@ -121,7 +121,7 @@ class UserController extends Controller
             $response = (new User)->filter(new UserFilters($request));
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveInstances($response);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrieveInstances($e);
         }
         return response()->json($result->response, $result->http_status);       

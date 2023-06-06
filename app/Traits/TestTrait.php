@@ -4,7 +4,8 @@ use App\Models\User;
 
 trait TestTrait {
 
-    public function testUser(){
+    public function testUser(): array
+    {
         $requestData = [            
             'email' => 'almir@almir.ba',
             'password' => 'password'            

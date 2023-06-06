@@ -14,7 +14,7 @@ class PostControllerTest extends TestCase
 
     protected $password = "$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi";
     
-    public function testCreated()
+    public function testCreated(): void
     {        
         $user = $this->testUser();
         
@@ -35,7 +35,7 @@ class PostControllerTest extends TestCase
     }
 
 
-    public function testIndex()
+    public function testIndex():void
     {             
         $user = $this->testUser();
 
@@ -47,7 +47,7 @@ class PostControllerTest extends TestCase
     }
 
 
-    public function testShow()
+    public function testShow(): void
     {
         $user = $this->testUser();
 
@@ -76,7 +76,7 @@ class PostControllerTest extends TestCase
     }
 
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $user = $this->testUser();
 
@@ -109,7 +109,7 @@ class PostControllerTest extends TestCase
     }
 
 
-    public function testDelete()
+    public function testDelete(): void
     {
         $user = $this->testUser();
 

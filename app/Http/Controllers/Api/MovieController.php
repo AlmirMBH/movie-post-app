@@ -35,7 +35,7 @@ class MovieController extends Controller
             $response = $this->movieRepository->createMovie($request);
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogCreatedOneInstance($response);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotCreatedInstance($e);
         }
         return response()->json($result->response, $result->http_status);
@@ -48,7 +48,7 @@ class MovieController extends Controller
             $response = $this->movieRepository->getAll();
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveInstances($response);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrieveInstances($e);
         }
         return response()->json($result->response, $result->http_status);
@@ -61,7 +61,7 @@ class MovieController extends Controller
             $response = $this->movieRepository->find($id);
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveOneInstance($response);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrievedOneInstance($e);
         }
         return response()->json($result->response, $result->http_status);
@@ -76,7 +76,7 @@ class MovieController extends Controller
             $category = $this->movieRepository->updateMovie($id, $request);
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogUpdatedInstance($category);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotUpdatedInstance($e);
         }        
         return response()->json($result->response, $result->http_status);
@@ -89,9 +89,9 @@ class MovieController extends Controller
         
         try {
             $response = $this->movieRepository->deleteMovie($id);
-            $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveOneInstance($response);
+            $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogDeletedOneInstance($response);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrievedOneInstance($e);
         }
         return response()->json($result->response, $result->http_status);
@@ -115,17 +115,18 @@ class MovieController extends Controller
                     $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveOneInstance($response);
                 }
             } elseif ($addFavoriteMovie) {
-                if($movieId){
+                if ($movieId) {
                     $user->favoriteMovies()->attach($movieId);
                     $response = $this->movieRepository->findById($movieId);
                     $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogCreatedOneInstance($response);
-                }else {                
+                } else {                
                     $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogNoMovieSelected();
                 }
-            }else{
+            } else {
                 $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogNoMovieSelectedAndLiked();
             }        
-        } catch (\Exception $e) {
+        } 
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrieveInstances($e);
         }
         
@@ -142,7 +143,7 @@ class MovieController extends Controller
             $response = (new Movie)->filter(new MovieFilters($request));
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveInstances($response);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrieveInstances($e);
         }
         return response()->json($result->response, $result->http_status);       

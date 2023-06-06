@@ -15,6 +15,15 @@ class MovieAddRequest extends FormRequest
         return true;
     }
 
+
+    public function validationData()
+    {
+        $data = parent::validationData();
+        $data['added_by_id'] = UserHelper::getLoggedUserId();
+
+        return $data;
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -27,7 +36,6 @@ class MovieAddRequest extends FormRequest
             'body' => 'required|string',
             'image_id' => 'required|exists:images,id',
             'director' => 'required|string|max:255',
-            'added_by_id' => UserHelper::getLoggedUserId()
         ];
     }
 }

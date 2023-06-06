@@ -30,7 +30,7 @@ class ImageController extends Controller
             $response = $this->imageRepository->createImage($request);
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogCreatedOneInstance($response);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotCreatedInstance($e);
         }
         return response()->json($result->response, $result->http_status);
@@ -43,7 +43,7 @@ class ImageController extends Controller
             $response = $this->imageRepository->getAll();
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveInstances($response);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrieveInstances($e);
         }
         return response()->json($result->response, $result->http_status);
@@ -56,7 +56,7 @@ class ImageController extends Controller
             $response = $this->imageRepository->find($id);
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveOneInstance($response);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrievedOneInstance($e);
         }
         return response()->json($result->response, $result->http_status);
@@ -69,7 +69,7 @@ class ImageController extends Controller
             $category = $this->imageRepository->updateImage($id, $request);
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogUpdatedInstance($category);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotUpdatedInstance($e);
         }        
         return response()->json($result->response, $result->http_status);
@@ -82,7 +82,7 @@ class ImageController extends Controller
             $response = $this->imageRepository->deleteImage($id);
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveOneInstance($response);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrievedOneInstance($e);
         }
         return response()->json($result->response, $result->http_status);
@@ -97,7 +97,7 @@ class ImageController extends Controller
             $response = (new Image)->filter(new ImageFilters($request));
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveInstances($response);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrieveInstances($e);
         }
         return response()->json($result->response, $result->http_status);       

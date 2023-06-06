@@ -34,7 +34,7 @@ class PostController extends Controller
             $response = $this->postRepository->createPost($request);
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogCreatedOneInstance($response);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotCreatedInstance($e);
         }
         return response()->json($result->response, $result->http_status);
@@ -47,7 +47,7 @@ class PostController extends Controller
             $response = $this->postRepository->getAll();
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveInstances($response);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrieveInstances($e);
         }
         return response()->json($result->response, $result->http_status);
@@ -59,7 +59,7 @@ class PostController extends Controller
         try {
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveOneInstance($post);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrievedOneInstance($e);
         }
         return response()->json($result->response, $result->http_status);
@@ -74,7 +74,7 @@ class PostController extends Controller
             $category = $this->postRepository->updatePost($id, $request);
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogUpdatedInstance($category);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotUpdatedInstance($e);
         }        
         return response()->json($result->response, $result->http_status);
@@ -89,7 +89,7 @@ class PostController extends Controller
             $response = $this->postRepository->deletePost($id);
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveOneInstance($response);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrievedOneInstance($e);
         }
         return response()->json($result->response, $result->http_status);
@@ -102,7 +102,7 @@ class PostController extends Controller
             $response = (new Post)->filter(new PostFilters($request));
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveInstances($response);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrieveInstances($e);
         }
         return response()->json($result->response, $result->http_status);       

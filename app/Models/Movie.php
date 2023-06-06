@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
@@ -19,13 +20,14 @@ class Movie extends Model
     protected $fillable = ['title', 'body', 'image_id', 'director', 'category_id', 'slug', 'added_by_id'];
 
 
-    public function setTitleAttribute($value) {
+    public function setTitleAttribute($value): void 
+    {
         $this->attributes['title'] = $value;
         $this->attributes['slug'] = Str::slug($value);
     }
 
     
-    public function images()
+    public function images(): MorphMany
     {
         return $this->morphMany(Image::class, 'imageable');
     }

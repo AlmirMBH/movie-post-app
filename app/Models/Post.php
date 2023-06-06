@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
@@ -18,18 +19,20 @@ class Post extends Model
     protected $fillable = ['title', 'description', 'body', 'author_id', 'category_id', 'slug', 'subtitle', 'movie_id'];
 
 
-    public function getRouteKeyName() {
+    public function getRouteKeyName()
+    {
         return 'slug';
     }
 
 
-    public function setTitleAttribute($value) {
+    public function setTitleAttribute(string $value)
+    {
         $this->attributes['title'] = $value;
         $this->attributes['slug'] = Str::slug($value);
     }
     
     
-    public function images()
+    public function images(): MorphMany
     {
         return $this->morphMany(Image::class, 'imageable');
     }

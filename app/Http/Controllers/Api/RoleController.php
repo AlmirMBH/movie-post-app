@@ -32,7 +32,7 @@ class RoleController extends Controller
             $response = $this->roleRepository->createRole($request);
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogCreatedOneInstance($response);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotCreatedInstance($e);
         }
         return response()->json($result->response, $result->http_status);
@@ -47,7 +47,7 @@ class RoleController extends Controller
             $response = $this->roleRepository->getAll();
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveInstances($response);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrieveInstances($e);
         }
         return response()->json($result->response, $result->http_status);
@@ -61,7 +61,7 @@ class RoleController extends Controller
         try {
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveOneInstance($role);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrievedOneInstance($e);
         }
         return response()->json($result->response, $result->http_status);
@@ -76,7 +76,7 @@ class RoleController extends Controller
             $category = $this->roleRepository->updateRole($id, $request);
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogUpdatedInstance($category);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotUpdatedInstance($e);
         }        
         return response()->json($result->response, $result->http_status);
@@ -91,7 +91,7 @@ class RoleController extends Controller
             $response = $this->roleRepository->deleteRole($id);
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveOneInstance($response);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrievedOneInstance($e);
         }
         return response()->json($result->response, $result->http_status);
@@ -106,7 +106,7 @@ class RoleController extends Controller
             $response = (new Role)->filter(new RoleFilters($request));
             $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveInstances($response);
         }
-        catch(\Exception $e){
+        catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrieveInstances($e);
         }
         return response()->json($result->response, $result->http_status);       

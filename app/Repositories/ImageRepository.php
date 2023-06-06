@@ -36,7 +36,7 @@ class ImageRepository extends BaseRepository
     }
 
 
-    public function updateImage(int $id, $request):Model
+    public function updateImage(int $id, $request): Model
     {
         return $this->update($request->validated(), $id);
     }

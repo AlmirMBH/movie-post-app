@@ -23,8 +23,6 @@ class PostFactory extends Factory
             'description' => $this->faker->paragraph(),
             'body' => $this->faker->text(),
             'author_id' => 1,
-            // 'category_id' => random_int(1, 5),
-            // 'slug' => $this->faker->slug(),
             'movie_id' => random_int(1, 20)
         ];
         

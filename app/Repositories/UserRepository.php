@@ -17,7 +17,7 @@ class UserRepository extends BaseRepository
     }
 
 
-    public function createUser(Request $request)
+    public function createUser(Request $request): Model
     {
         return $this->create($request->validated());
     }
@@ -47,8 +47,11 @@ class UserRepository extends BaseRepository
     }
 
 
-    public function getFavorite($id){        
-        return $this->findById($id)->favoriteMovies()->get();
+    public function getFavorite(int $id): Collection
+    {
+        return $this->findById($id)
+                    ->favoriteMovies()
+                    ->get();
     }
 
 }
