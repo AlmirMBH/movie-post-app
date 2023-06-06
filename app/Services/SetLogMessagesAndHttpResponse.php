@@ -17,6 +17,45 @@ class SetLogMessagesAndHttpResponse {
         $this->customResponse = $customResponse;
     }
 
+
+    public function setHttpResponseAndLogRegisterUser(?array $response): object
+    {        
+        if (!isset($response)) {
+            Log::stack(['custom_error'])->error(LogMessage::USER_NOT_REGISTERED);
+            return $this->customResponse->httpResponse(null, CustomHttpStatusMessages::BAD_REQUEST);
+        }
+
+        Log::channel('custom_info')->info(LogMessage::USER_REGISTERED);
+        return $this->customResponse->httpResponse($response, CustomHttpStatusMessages::CREATED);
+    }
+
+
+    public function setHttpResponseAndLogLoginUser(?array $response): object
+    {    
+        if (!isset($response)) {
+            Log::stack(['custom_error'])->error(LogMessage::USER_NOT_LOGGED_IN);
+            return $this->customResponse->httpResponse(null, CustomHttpStatusMessages::UNAUTHORIZED);
+        }
+
+        Log::channel('custom_info')->error(LogMessage::USER_LOGGED_IN);
+        return $this->customResponse->httpResponse($response, CustomHttpStatusMessages::OK);
+    }
+
+
+    public function setExceptionAndLogUnauthorizedLoginAttempt(): object
+    {
+        Log::stack(['custom_error'])->error("A user has not been logged in.");
+        return $this->customResponse->httpResponse(null, CustomHttpStatusMessages::UNAUTHORIZED);
+    }
+
+
+    public function setHttpResponseAndLogLogoutUser(): object
+    {
+        Log::channel('custom_info')->info(LogMessage::USER_LOGGED_OUT);
+        return $this->customResponse->httpResponse(LogMessage::USER_LOGGED_OUT, CustomHttpStatusMessages::OK);
+    }
+
+
     public function setHttpResponseAndLogCreatedOneInstance(?object $response): object 
     {
         if (empty($response)) {

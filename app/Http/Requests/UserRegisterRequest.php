@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Helpers\RoleHelper;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserRegisterRequest extends FormRequest
@@ -13,6 +14,16 @@ class UserRegisterRequest extends FormRequest
     {
         return true;
     }
+
+
+    public function validationData()
+    {
+        $data = parent::validationData();
+        $data['role_id'] = RoleHelper::USER;
+
+        return $data;
+    }
+
 
     /**
      * Get the validation rules that apply to the request.

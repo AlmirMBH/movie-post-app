@@ -11,7 +11,6 @@ class UserControllerTest extends TestCase
 {
     use RefreshDatabase, TestTrait;
 
-    protected $password = "$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi";
 
     public function testRegister(): void
     {        
@@ -23,7 +22,7 @@ class UserControllerTest extends TestCase
         ];
 
         $response = $this->json('POST', 'api/register', $requestData);
-        $response->assertStatus(200);
+        $response->assertStatus(201);
     }
 
 

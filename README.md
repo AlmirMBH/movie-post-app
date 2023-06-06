@@ -1,13 +1,15 @@
 #MOVIE APP
 
-
 ###APP INFO
-Bear in mind that only admins have full access to all functionalities.
-Credentials for admins can be found in UserSeeder. One of them is: sasa@sasa.ba  password
-POSTMAN Collection is also available (Movie-App.postman_collection.json) in the root of the project.
-The images are planned to be implemented for the use with movies, users and posts (work in progress)....
-I also implemented commands to provide an idea of automation and accelaration of the development process. 
-If you want to test it,follow the steps below after you set the project:
+Please note that only admins have full access to all functionality. The credentials for admins can be found in UserSeeder. One of them is:
+
+Email: sasa@sasa.ba
+Password: [password]
+
+A Postman collection is also available (Movie-App.postman_collection.json) in the root of the project. The images are planned to be implemented for use with movies, users, and posts (work in progress).
+
+I have also implemented commands to provide an idea of automation and acceleration of the development process. If you want to test it, follow the steps below after you set up the project.
+
 
 1) open the terminal and navigate to the root of the project
 2) execute: php artisan make:model Car -mcbde,
@@ -25,17 +27,15 @@ If you want to test it,follow the steps below after you set the project:
     - DELETE: api/cars/delete/1
     - POST: api/cars/create
     - POST: api/cars/filter 
-10) By using api/cars/filter, you will be able to search by "id" and "name". If you use "orderById" and pass 'desc' or 'asc', you will be able to order the records. If you add 'pagination' and e.g. 4, you will controll how many records you fetch from the database ie. 4. Remember, no additional actions are required to have all of the above functionalities.
+10) By using the endpoint "api/cars/filter," you will be able to search for cars based on their "id" and "name." If you use the "orderById" parameter and pass either 'desc' or 'asc,' you can order the records accordingly. Additionally, by including the 'pagination' parameter followed by a number (e.g., 4), you can control the number of records fetched from the database (e.g., 4 records). It's important to note that no additional actions are required to access these functionalities.
 
-For more details, read Custom Artisan Commands and Stubs below.
+For more details, please refer to the section on "Custom Artisan Commands and Stubs" below.
 
 
 
 ###MODELS
-There are 6 models in the application: User, Role, Movie, Post, favoriteMovieUser and Image.
-I was planning to implement image upload and conversion to base64, so that I can use them wth users, movies and posts.
-However, the time was pretty limited and I only implemented Image model with filters, CRUD and tests. It was not a 
-manual task but automatic (see setion custom commands below).
+There are 6 models in the application: User, Role, Movie, Post, favoriteMovieUser, and Image. I had initially planned to implement image upload and conversion to base64 so that they could be used with users, movies, and posts.
+However, due to time constraints, I was only able to implement the Image model, including filters, CRUD operations, and tests. The implementation of the Image model was automated using custom commands (see the section on custom commands below).
 
 
 
@@ -46,72 +46,57 @@ loss.
 
 
 ###ROLES
-There are 3 roles seeded in the application: admin, user and guest. Guest is more used as an example, so that it can be used in CRUD operations testing.
+There are 3 roles seeded in the application: admin, user, and guest. The "guest" role is primarily used as an example for testing CRUD operations.
 
 
 
 ###EXCEPTIONS AND LOGS
-The exception handling was done via SetLogMessagesAndHttpResponse class. In this class I set custom response and write
-logs that can be found in storage folder. The files are entitled error.php and info.php. The purpose is to have detailed
-logs about anything that happens in the application.
+Exception handling is performed through the SetLogMessagesAndHttpResponse class. In this class, custom responses are set, and logs are written, which can be found in the storage folder. The log files are named error.php and info.php. The purpose of these logs is to provide detailed information about any occurrences within the application.
 
 
 
 ###REPOSITORY
-The application communicates with the database via so-called data access layer i.e. repository. Each model has a controller and each controller extends a base controller that has an interface. The CRUD operations are done via base
-repository, while the rest, model-specific operations are done in the model specific repositories.
+The application utilizes a data access layer, known as a repository, to communicate with the database. Each model has a controller, which extends a base controller that includes an interface. The base repository handles the CRUD operations, while model-specific operations are implemented in the corresponding model-specific repositories.
 
 
 
 ###SEARCH FILTER
-Taking into account scalability, maintenance and easiness of adding new filters to each model, I implemented a filter
-model. It uses traits, base filter and it is based on Eloquent builder. The request commes to a controller and it is
-then redirected to the Model where a scope method is used (via Trait) to add a builder instance. It then goes to the
-base filter where it is looped through. The point is that the methods in ModelFilters are entitled exactly the same as
-the input fields. Therefore, when the base filter loops through the request, the methods are searched for in the 
-ModelFilter and if they are found the field and value are applied to it. The base filter also implements pagination.
+To ensure scalability, ease of maintenance, and simplicity in adding new filters to each model, I have implemented a filter model. This filter model utilizes traits and a base filter, built on the foundation of the Eloquent builder. When a request is received by a controller, it is then directed to the corresponding model. A scope method (via the trait) is used to add a builder instance. The request is subsequently passed to the base filter, where it is looped through. The methods in the ModelFilters are named identically to the input fields. As the base filter iterates through the request, it searches for matching methods in the ModelFilter. If found, the field and value are applied accordingly. Additionally, the base filter includes pagination functionality.
 
 
 
 ###FORM REQUESTS
-All inputs are validated in custom requests i.e. form requests. Instead of method ->all(), ->validate() is used, so that
-only the validated inputs are used (security).
+All inputs are validated using custom form requests. Instead of the ->all() method, ->validate() is used to ensure that only the validated inputs are used for security purposes.
 
 
 
 ###MIDDLEWARE
-There are 2 middlewares in the application, CORS and AUTH. As their name says, they are used for login, logout and registration and CORS.
+There are 2 middlewares in the application: CORS and AUTH. As their names suggest, they are used for handling login, logout, registration, and CORS functionality.
 
 
 
 ###POLICIES
-Although policies are not part of the requirement, I included them as a security measure. They are commented out and in
-case you want to test them, just uncomment e.g. $this->authorize('create') in any controller. Only the admin is allowed
-to perform all CRUD operations. Bear in mind that tests do not work with policies.
+Although policies are not part of the requirements, they have been included as a security measure. They are currently commented out. If you wish to test them, you can uncomment lines such as $this->authorize('create') in any controller. Only admins are allowed to perform CRUD operations. It's important to note that tests do not work with policies.
 
 
 
 ###TESTS
-The tests have been written for all the models (not all methods). They can be started using the following command:
-- "php artisan test" 
-or if you want to start only a specific test, you can use: 
-"php artisan test --filter UserControllerTest".
-The tests will require an additional database. See config/database.php and add the necessary keys in the .env.
+Tests have been written for all the models (although not all methods). You can start the tests by using the following command: "php artisan test." If you want to run a specific test, you can use: "php artisan test --filter UserControllerTest." The tests require an additional database. Please refer to the config/database.php file and add the necessary keys in the .env file.
 
 
 
 ###CACHING
-The caching is implemented with favorite movies. It is refreshed each time a movie is added or deleted from the list. In addition, caching is suited to each user 
-i.e. the cache is not deleted for a user with ID 4 if a user with e.g. ID 6 adds or removes a movie from the list.
+Caching is implemented for favorite movies and is refreshed whenever a movie is added or deleted from the list. Additionally, caching is specific to each user, meaning that the cache for user ID 4 will not be affected if another user, such as user ID 6, adds or removes a movie from their list.
 
 
 
 ###SLUGS AND ROUTE MODEL BINDING
-Slugs are implemented on Posts model, just as a demonstration of how slugs can be set and used instead of ID. In addition, route model binding is implemented in all "show" methods in all controllers.
+Slugs are implemented in the Posts model to demonstrate how they can be used instead of IDs. Route model binding is implemented in all "show" methods across all controllers.
+
 
 
 ###JWT
-The JWT user authentication has been implemented and the APIs cannot be used if a user is not logged in.
+JWT user authentication has been implemented, and the APIs cannot be accessed unless a user is logged in.
 
 
 
@@ -138,7 +123,7 @@ The optional flags are as follows:
 -d - Create a filter for the model (customized).
 -e - Create CRUD routes for the model.
 
-If you include the -b flag, a base repository will be created in the app/Repositories directory. All repositories created using this command will extend a base repository, providing them with pre-built CRUD methods for easy data management.
+If you include the -b flag, a base repository will be created in the app/Repositories directory. All repositories created using this command will extend the base repository, providing them with CRUD methods for easy data management.
 
 ####EXAMPLE
 To create a new Post model with a migration, factory, seeder, controller, repository, filter and routes, run the following command:

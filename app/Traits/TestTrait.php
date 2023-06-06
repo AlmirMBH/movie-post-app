@@ -4,6 +4,9 @@ use App\Models\User;
 
 trait TestTrait {
 
+    protected $password = "$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi";
+
+    
     public function testUser(): array
     {
         $requestData = [            
@@ -14,7 +17,7 @@ trait TestTrait {
         $response->assertStatus(200);
         $user = User::where(['email' => 'almir@almir.ba', 'password' => $this->password])->firstOrFail();
 
-        return ['user' => $user, 'token' => $response['authorisation']['token']];
+        return ['user' => $user, 'token' => $response['token']];
     }
     
 }

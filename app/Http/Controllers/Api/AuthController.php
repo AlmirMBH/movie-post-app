@@ -2,81 +2,54 @@
    
 namespace App\Http\Controllers\API;
 
-use App\Helpers\RoleHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegisterRequest;
-use App\Models\User;
-use Illuminate\Http\Response;
+use App\Repositories\UserRepository;
+use App\Services\SetLogMessagesAndHttpResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Hash;
    
 class AuthController extends Controller
 {
-    public function __construct()
-    {
+    public function __construct(
+        private SetLogMessagesAndHttpResponse $setLogMessagesAndHttpResponse,
+        private UserRepository $userRepository
+    ){
         $this->middleware('auth:api', ['except' => ['login','register']]);
     }
 
 
     public function login(UserLoginRequest $request): JsonResponse
     {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-        ]);
         $credentials = $request->only('email', 'password');
 
         $token = auth()->guard('api')->attempt($credentials);
-        if (!$token) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Unauthorized',
-            ], 401);
+        if (! $token) {
+            $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogUnauthorizedLoginAttempt();            
         }
 
-        return response()->json([
-                'status' => Response::HTTP_OK,
-                'authorisation' => [
-                    'token' => $token,
-                    'type' => 'bearer',
-                ]
-            ]);
+        $authorisation = ['type' => 'bearer', 'token' => $token];
+        $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogLoginUser($authorisation);        
+        return response()->json($result->response, $result->http_status);
     }
 
 
-    public function logout():JsonResponse
+    public function logout(): JsonResponse
     {
         Auth::logout();
-
-        return response()->json([
-            'status' => Response::HTTP_OK,
-            'message' => 'User logged out...',
-        ]);
+        $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogLogoutUser();
+        return response()->json($result->response, $result->http_status);
     }
 
 
-    public function register(UserRegisterRequest $request):JsonResponse
+    public function register(UserRegisterRequest $request): JsonResponse
     {
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role_id' => RoleHelper::USER
-        ]);
-        
+        $user = $this->userRepository->createUser($request);
         $token = auth()->guard('api')->login($user);
-
-        return response()->json([
-            'status' => Response::HTTP_OK,
-            'message' => 'User registered successfully',
-            'user' => $user,
-            'authorisation' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ]
-        ]);
+        $response = ['user' => $user, 'type' => 'bearer', 'token' => $token];
+        $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRegisterUser($response);
+        return response()->json($result->response, $result->http_status);
     }
     
 }

@@ -15,6 +15,16 @@ class PostAddRequest extends FormRequest
         return true;
     }
 
+
+    public function validationData()
+    {
+        $data = parent::validationData();
+        $data['author_id'] = UserHelper::getLoggedUserId();
+
+        return $data;
+    }
+
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -27,8 +37,7 @@ class PostAddRequest extends FormRequest
             'description' => 'required|string',
             'body' => 'required|string',
             'subtitle' => 'nullable|string',
-            'movie_id' => 'nullable|integer',
-            'author_id' => UserHelper::getLoggedUserId()
+            'movie_id' => 'nullable|integer'
         ];
     }
 }
