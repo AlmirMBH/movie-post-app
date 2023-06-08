@@ -64,12 +64,12 @@ return [
         ],
 
         'test' => [
-            'driver' => env('DB_CONNECTION_TEST', 'mysql'),
-            'host' => env('DB_HOST_TEST', '127.0.0.1'),
-            'port' => env('DB_PORT_TEST', '3306'),
-            'database' => env('DB_DATABASE_TEST', 'testing'),
-            'username' => env('DB_USERNAME_TEST', 'root'),
-            'password' => env('DB_PASSWORD_TEST', ''),
+            'driver' => env('DB_CONNECTION_TEST'),
+            'host' => env('DB_HOST_TEST'),
+            'port' => env('DB_PORT_TEST'),
+            'database' => env('DB_DATABASE_TEST'),
+            'username' => env('DB_USERNAME_TEST'),
+            'password' => env('DB_PASSWORD_TEST'),
         ],
 
         'pgsql' => [

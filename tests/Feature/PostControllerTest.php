@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Post;
 use App\Traits\TestTrait;
+use Database\Seeders\TestPostSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -34,7 +35,7 @@ class PostControllerTest extends TestCase
     }
 
 
-    public function testIndex():void
+    public function testIndex(): void
     {             
         $user = $this->testUser();
 
@@ -49,23 +50,8 @@ class PostControllerTest extends TestCase
     public function testShow(): void
     {
         $user = $this->testUser();
-
-        $requestData = [         
-            'title' => 'Test post' . random_int(1, 10000),   
-            'subtitle' => 'Test post body',
-            'description' => '3',
-            'body' => 'Tester',
-            'author_id' => $user['user']->id,
-            'movie_id' => 3
-        ];
-
-        $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('POST', 'api/posts/create', $requestData);
-        
-        $response->assertStatus(201);
-
-        $post = Post::where(['title' => $requestData['title']])->firstOrFail();
+        $this->seed(TestPostSeeder::class);        
+        $post = Post::where(['title' => 'Test post'])->firstOrFail();
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
@@ -78,23 +64,9 @@ class PostControllerTest extends TestCase
     public function testUpdate(): void
     {
         $user = $this->testUser();
-
-        $requestData = [         
-            'title' => 'Test post' . random_int(1, 10000),   
-            'subtitle' => 'Test post body',
-            'description' => '3',
-            'body' => 'Tester',
-            'author_id' => $user['user']->id,
-            'movie_id' => 3
-        ];
-
-        $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('POST', 'api/posts/create', $requestData);
+        $this->seed(TestPostSeeder::class);        
+        $post = Post::where(['title' => 'Test post'])->firstOrFail();
         
-        $response->assertStatus(201);
-
-        $movie = Post::where(['title' => $requestData['title']])->firstOrFail();
         $requestData = [         
             'title' => 'Test post updated' . random_int(1, 1000),   
             'body' => 'Test post updated',
@@ -102,7 +74,7 @@ class PostControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('PUT', 'api/posts/update/' . $movie->id, $requestData);
+        ])->json('PUT', 'api/posts/update/' . $post->id, $requestData);
 
         $response->assertStatus(200);
     }
@@ -111,23 +83,8 @@ class PostControllerTest extends TestCase
     public function testDelete(): void
     {
         $user = $this->testUser();
-
-        $requestData = [         
-            'title' => 'Test post' . random_int(1, 10000),   
-            'subtitle' => 'Test post body',
-            'description' => '3',
-            'body' => 'Tester',
-            'author_id' => $user['user']->id,
-            'movie_id' => 3
-        ];
-
-        $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('POST', 'api/posts/create', $requestData);
-        
-        $response->assertStatus(201);
-
-        $post = Post::where(['title' => $requestData['title']])->firstOrFail();
+        $this->seed(TestPostSeeder::class);        
+        $post = Post::where(['title' => 'Test post'])->firstOrFail();
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],

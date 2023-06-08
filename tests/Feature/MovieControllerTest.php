@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Movie;
 use App\Traits\TestTrait;
+use Database\Seeders\TestMovieSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -47,22 +48,8 @@ class MovieControllerTest extends TestCase
     public function testShow(): void
     {
         $user = $this->testUser();
-
-        $requestData = [         
-            'title' => 'Test movie' . random_int(1, 10000),   
-            'body' => 'Test movie',
-            'image_id' => '3',
-            'director' => 'Tester',
-            'added_by_id' => $user['user']->id
-        ];
-
-        $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('POST', 'api/movies/create', $requestData);
-        
-        $response->assertStatus(201);
-
-        $movie = Movie::where(['title' => $requestData['title']])->firstOrFail();
+        $this->seed(TestMovieSeeder::class);
+        $movie = Movie::where(['title' => 'Test movie'])->firstOrFail();
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
@@ -75,22 +62,9 @@ class MovieControllerTest extends TestCase
     public function testUpdate(): void
     {
         $user = $this->testUser();
-
-        $requestData = [         
-            'title' => 'Test movie' . random_int(1, 10000),   
-            'body' => 'Test movie',
-            'image_id' => '3',
-            'director' => 'Tester',
-            'added_by_id' => $user['user']->id
-        ];
-
-        $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('POST', 'api/movies/create', $requestData);
+        $this->seed(TestMovieSeeder::class);
+        $movie = Movie::where(['title' => 'Test movie'])->firstOrFail();
         
-        $response->assertStatus(201);
-
-        $movie = Movie::where(['title' => $requestData['title']])->firstOrFail();
         $requestData = [         
             'title' => 'Test movie updated' . random_int(1, 1000),   
             'body' => 'Test movie updated',
@@ -107,22 +81,8 @@ class MovieControllerTest extends TestCase
     public function testDelete(): void
     {
         $user = $this->testUser();
-
-        $requestData = [         
-            'title' => 'Test movie' . random_int(1, 10000),   
-            'body' => 'Test movie',
-            'image_id' => '3',
-            'director' => 'Tester',
-            'added_by_id' => $user['user']->id
-        ];
-
-        $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('POST', 'api/movies/create', $requestData);
-        
-        $response->assertStatus(201);
-
-        $movie = Movie::where(['title' => $requestData['title']])->firstOrFail();
+        $this->seed(TestMovieSeeder::class);
+        $movie = Movie::where(['title' => 'Test movie'])->firstOrFail();
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],

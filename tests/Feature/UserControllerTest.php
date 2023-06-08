@@ -40,6 +40,7 @@ class UserControllerTest extends TestCase
     public function testShow(): void
     {
         $user = $this->testUser();
+        
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
         ])->json('GET', 'api/users/show/' . $user['user']->id);

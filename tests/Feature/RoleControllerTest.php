@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Role;
 use App\Traits\TestTrait;
+use Database\Seeders\TestRoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -19,7 +20,7 @@ class RoleControllerTest extends TestCase
         $requestData = ['name' => 'guest'];
 
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $user['user'],
+            'Authorization' => 'Bearer ' . $user['token'],
         ])->json('POST', 'api/roles/create', $requestData);
 
         $response->assertStatus(201);
@@ -31,7 +32,7 @@ class RoleControllerTest extends TestCase
         $user = $this->testUser();
 
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $user['user'],
+            'Authorization' => 'Bearer ' . $user['token'],
         ])->json('GET', 'api/roles/index');
 
         $response->assertStatus(200);
@@ -40,11 +41,12 @@ class RoleControllerTest extends TestCase
 
     public function testShow(): void
     {
-        $role = Role::factory()->create();        
         $user = $this->testUser();
+        $this->seed(TestRoleSeeder::class);
+        $role = Role::where('name', 'super-admin')->firstOrFail();
 
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $user['user'],
+            'Authorization' => 'Bearer ' . $user['token'],
         ])->json('GET', 'api/roles/show/' . $role->id);
 
         $response->assertStatus(200);
@@ -54,18 +56,12 @@ class RoleControllerTest extends TestCase
     public function testUpdate(): void
     {
         $user = $this->testUser();
-        $requestData = ['name' => 'tourist'];
-
-        $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $user['user'],
-        ])->json('POST', 'api/roles/create', $requestData);
-        $response->assertStatus(201);
-
-        $role = Role::where('name', 'tourist')->firstOrFail();
+        $this->seed(TestRoleSeeder::class);
+        $role = Role::where('name', 'super-admin')->firstOrFail();
         $requestData = ['name' => 'updated-guest'];
 
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $user['user'],
+            'Authorization' => 'Bearer ' . $user['token'],
         ])->json('PUT', 'api/roles/update/' . $role->id, $requestData);
 
         $response->assertStatus(200);
@@ -75,17 +71,11 @@ class RoleControllerTest extends TestCase
     public function testDelete(): void
     {
         $user = $this->testUser();
-        $requestData = ['name' => 'student'];
+        $this->seed(TestRoleSeeder::class);
+        $role = Role::where('name', 'super-admin')->firstOrFail();
 
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $user['user'],
-        ])->json('POST', 'api/roles/create', $requestData);
-        $response->assertStatus(201);
-
-        $role = Role::where('name', 'student')->firstOrFail();
-
-        $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $user['user'],
+            'Authorization' => 'Bearer ' . $user['token'],
         ])->json('DELETE', 'api/roles/delete/' . $role->id);
 
         $response->assertStatus(200);
