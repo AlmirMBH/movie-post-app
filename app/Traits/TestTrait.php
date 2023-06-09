@@ -1,34 +1,38 @@
 <?php
-namespace App\Traits;
-use App\Models\User;
-use Database\Seeders\TestUserSeeder;
 
+namespace App\Traits;
+
+use Database\Seeders\TestUserSeeder;
+use Illuminate\Database\Eloquent\Model;
 
 trait TestTrait {
 
-    private static $user = null;
-    private static $token = null;
+
     protected $password = "$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi";
 
     
     public function testUser(): array
     {
-        $this->seed(TestUserSeeder::class);
-        $requestData = ['email' => 'test@test.ba', 'password' => 'password'];
+        $user = $this->getSeededModel(TestUserSeeder::class);
+        $requestData = ['email' => 'test@test.ba', 'password' => 'password'];        
         $response = $this->json('POST', 'api/login', $requestData);        
-        $response->assertStatus(200);
-        $user = User::where(['email' => 'test@test.ba', 'password' => $this->password])->firstOrFail();
-        self::$user = $user;
-        self::$token = $response['token'];
+        $response->assertStatus(200);       
 
         return ['user' => $user, 'token' => $response['token']];
     }
 
 
-    public function getSeededModel($seeder){
+    /**
+     * Test seeder classes are passed as parameters to this method (e.g. TestUserSeeder). The seeders are executed and
+     * the seeded models are returned.
+     */
+    public function getSeededModel(string $seeder): Model
+    {
         $this->seed($seeder);
-
-        return User::latest()->first();
+        $model = str_replace(['Database\Seeders\Test', 'Seeder'], '', $seeder);
+        $modelClass = '\\App\\Models\\' . $model;
+        return app($modelClass)->latest()->first();
     }
+
     
 }

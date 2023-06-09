@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Movie;
 use App\Traits\TestTrait;
 use Database\Seeders\TestMovieSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -48,9 +47,8 @@ class MovieControllerTest extends TestCase
     public function testShow(): void
     {
         $user = $this->testUser();
-        $this->seed(TestMovieSeeder::class);
-        $movie = Movie::where(['title' => 'Test movie'])->firstOrFail();
-
+        $movie = $this->getSeededModel(TestMovieSeeder::class);
+        
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
         ])->json('GET', 'api/movies/show/' . $movie->id);
@@ -62,8 +60,7 @@ class MovieControllerTest extends TestCase
     public function testUpdate(): void
     {
         $user = $this->testUser();
-        $this->seed(TestMovieSeeder::class);
-        $movie = Movie::where(['title' => 'Test movie'])->firstOrFail();
+        $movie = $this->getSeededModel(TestMovieSeeder::class);        
         
         $requestData = [         
             'title' => 'Test movie updated' . random_int(1, 1000),   
@@ -81,8 +78,7 @@ class MovieControllerTest extends TestCase
     public function testDelete(): void
     {
         $user = $this->testUser();
-        $this->seed(TestMovieSeeder::class);
-        $movie = Movie::where(['title' => 'Test movie'])->firstOrFail();
+        $movie = $this->getSeededModel(TestMovieSeeder::class);
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],

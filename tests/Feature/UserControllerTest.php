@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use App\Traits\TestTrait;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -29,6 +28,7 @@ class UserControllerTest extends TestCase
     public function testIndex(): void
     {
         $user = $this->testUser();
+        
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
         ])->json('GET', 'api/users/index');
@@ -64,12 +64,11 @@ class UserControllerTest extends TestCase
 
     public function testDelete(): void
     {
-        $user = User::factory()->create();
-        $loggedUser = $this->testUser();
+        $user = $this->testUser();
 
         $response = $this->withHeaders([
-            'Authorization' => 'Bearer ' . $loggedUser['token'],
-        ])->json('DELETE', 'api/users/delete/' . $user->id);
+            'Authorization' => 'Bearer ' . $user['token'],
+        ])->json('DELETE', 'api/users/delete/' . $user['user']->id);
 
         $response->assertStatus(200);
     }

@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Image;
 use App\Traits\TestTrait;
 use Database\Seeders\TestImageSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -49,8 +48,7 @@ class ImageControllerTest extends TestCase
     public function testShow(): void
     {
         $user = $this->testUser();
-        $this->seed(TestImageSeeder::class);
-        $image = Image::where(['model_name' => 'movie', 'model_id' => 2])->firstOrFail();
+        $image = $this->getSeededModel(TestImageSeeder::class);
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
@@ -63,8 +61,8 @@ class ImageControllerTest extends TestCase
     public function testUpdate(): void
     {
         $user = $this->testUser();
-        $this->seed(TestImageSeeder::class);
-        $image = Image::where(['model_name' => 'movie', 'model_id' => 2])->firstOrFail();
+        $image = $this->getSeededModel(TestImageSeeder::class);
+
         $requestData = [
             'model_name' => 'Test post updated' . random_int(1, 1000),
             'path' => 'storage/images/thumbnails',
@@ -81,8 +79,8 @@ class ImageControllerTest extends TestCase
     public function testDelete(): void
     {
         $user = $this->testUser();
-        $this->seed(TestImageSeeder::class);
-        $image = Image::where(['model_name' => 'movie', 'model_id' => 2])->firstOrFail();
+        $image = $this->getSeededModel(TestImageSeeder::class);
+        
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
         ])->json('DELETE', 'api/images/delete/' . $image->id);

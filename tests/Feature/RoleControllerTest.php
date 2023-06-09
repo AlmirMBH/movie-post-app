@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Role;
 use App\Traits\TestTrait;
 use Database\Seeders\TestRoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -42,8 +41,7 @@ class RoleControllerTest extends TestCase
     public function testShow(): void
     {
         $user = $this->testUser();
-        $this->seed(TestRoleSeeder::class);
-        $role = Role::where('name', 'super-admin')->firstOrFail();
+        $role = $this->getSeededModel(TestRoleSeeder::class);
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
@@ -56,8 +54,7 @@ class RoleControllerTest extends TestCase
     public function testUpdate(): void
     {
         $user = $this->testUser();
-        $this->seed(TestRoleSeeder::class);
-        $role = Role::where('name', 'super-admin')->firstOrFail();
+        $role = $this->getSeededModel(TestRoleSeeder::class);
         $requestData = ['name' => 'updated-guest'];
 
         $response = $this->withHeaders([
@@ -71,8 +68,7 @@ class RoleControllerTest extends TestCase
     public function testDelete(): void
     {
         $user = $this->testUser();
-        $this->seed(TestRoleSeeder::class);
-        $role = Role::where('name', 'super-admin')->firstOrFail();
+        $role = $this->getSeededModel(TestRoleSeeder::class);
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
