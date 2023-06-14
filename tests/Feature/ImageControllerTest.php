@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Constants\Models;
 use App\Traits\TestTrait;
-use Database\Seeders\TestImageSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -48,7 +48,7 @@ class ImageControllerTest extends TestCase
     public function testShow(): void
     {
         $user = $this->testUser();
-        $image = $this->getSeededModel(TestImageSeeder::class);
+        $image = $this->getSeededModel(Models::IMAGE);
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
@@ -61,7 +61,7 @@ class ImageControllerTest extends TestCase
     public function testUpdate(): void
     {
         $user = $this->testUser();
-        $image = $this->getSeededModel(TestImageSeeder::class);
+        $image = $this->getSeededModel(Models::IMAGE);
 
         $requestData = [
             'model_name' => 'Test post updated' . random_int(1, 1000),
@@ -79,7 +79,7 @@ class ImageControllerTest extends TestCase
     public function testDelete(): void
     {
         $user = $this->testUser();
-        $image = $this->getSeededModel(TestImageSeeder::class);
+        $image = $this->getSeededModel(Models::IMAGE);
         
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],

@@ -2,34 +2,28 @@
 
 namespace App\Traits;
 
-use Database\Seeders\TestUserSeeder;
+use App\Constants\Models;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 trait TestTrait {
 
     
     public function testUser(): array
     {
-        $user = $this->getSeededModel(TestUserSeeder::class);
-        $requestData = ['email' => 'test@test.ba', 'password' => 'password'];        
+        $user = $this->getSeededModel(Models::USER);        
+        $requestData = ['email' => $user->email, 'password' => 'password']; // Password specified in UserFactory
         $response = $this->json('POST', 'api/login', $requestData);        
-        $response->assertStatus(200);       
-
+        $response->assertStatus(200);
+        
         return ['user' => $user, 'token' => $response['token']];
     }
 
 
-    /**
-     * Test seeder classes are passed as parameters to this method (e.g. TestUserSeeder). The seeders are executed and
-     * the seeded models are returned.
-     */
-    public function getSeededModel(string $seeder): Model
+    public function getSeededModel(string $model): Model
     {
-        $this->seed($seeder);
-        $model = str_replace(['Database\Seeders\Test', 'Seeder'], '', $seeder);
-        $modelClass = '\\App\\Models\\' . $model;
-        return app($modelClass)->latest()->first();
+        return Factory::factoryForModel($model)->create();
     }
-
-    
+   
 }

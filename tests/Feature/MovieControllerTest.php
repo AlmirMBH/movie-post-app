@@ -2,9 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Constants\Models;
 use App\Traits\TestTrait;
-use Database\Seeders\TestMovieSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 use Tests\TestCase;
 
 class MovieControllerTest extends TestCase
@@ -47,7 +48,7 @@ class MovieControllerTest extends TestCase
     public function testShow(): void
     {
         $user = $this->testUser();
-        $movie = $this->getSeededModel(TestMovieSeeder::class);
+        $movie = $this->getSeededModel(Models::MOVIE);
         
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
@@ -60,7 +61,7 @@ class MovieControllerTest extends TestCase
     public function testUpdate(): void
     {
         $user = $this->testUser();
-        $movie = $this->getSeededModel(TestMovieSeeder::class);        
+        $movie = $this->getSeededModel(Models::MOVIE);
         
         $requestData = [         
             'title' => 'Test movie updated' . random_int(1, 1000),   
@@ -77,8 +78,8 @@ class MovieControllerTest extends TestCase
 
     public function testDelete(): void
     {
-        $user = $this->testUser();
-        $movie = $this->getSeededModel(TestMovieSeeder::class);
+        $user = $this->testUser();        
+        $movie = $this->getSeededModel(Models::MOVIE);
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],

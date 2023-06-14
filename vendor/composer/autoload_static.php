@@ -541,6 +541,7 @@ class ComposerStaticInit878a749fa7a1afda0d5d56bde67d2748
         'App\\Console\\Commands\\MakeRepositoryCommand' => __DIR__ . '/../..' . '/app/Console/Commands/MakeRepositoryCommand.php',
         'App\\Console\\Commands\\MakeRoutesCommand' => __DIR__ . '/../..' . '/app/Console/Commands/MakeRoutesCommand.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
+        'App\\Constants\\Models' => __DIR__ . '/../..' . '/app/Constants/Models.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Filters\\Filters' => __DIR__ . '/../..' . '/app/Filters/Filters.php',
         'App\\Filters\\ImageFilters' => __DIR__ . '/../..' . '/app/Filters/ImageFilters.php',

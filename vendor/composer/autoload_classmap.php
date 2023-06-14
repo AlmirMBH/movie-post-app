@@ -12,6 +12,7 @@ return array(
     'App\\Console\\Commands\\MakeRepositoryCommand' => $baseDir . '/app/Console/Commands/MakeRepositoryCommand.php',
     'App\\Console\\Commands\\MakeRoutesCommand' => $baseDir . '/app/Console/Commands/MakeRoutesCommand.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
+    'App\\Constants\\Models' => $baseDir . '/app/Constants/Models.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Filters\\Filters' => $baseDir . '/app/Filters/Filters.php',
     'App\\Filters\\ImageFilters' => $baseDir . '/app/Filters/ImageFilters.php',

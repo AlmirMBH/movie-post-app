@@ -23,14 +23,15 @@ class AuthController extends Controller
     public function login(UserLoginRequest $request): JsonResponse
     {
         $credentials = $request->only('email', 'password');
-
         $token = auth()->guard('api')->attempt($credentials);
+
         if (! $token) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogUnauthorizedLoginAttempt();            
         }
 
         $authorisation = ['type' => 'bearer', 'token' => $token];
-        $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogLoginUser($authorisation);        
+        $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogLoginUser($authorisation);
+        
         return response()->json($result->response, $result->http_status);
     }
 
@@ -39,6 +40,7 @@ class AuthController extends Controller
     {
         Auth::logout();
         $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogLogoutUser();
+
         return response()->json($result->response, $result->http_status);
     }
 
@@ -49,6 +51,7 @@ class AuthController extends Controller
         $token = auth()->guard('api')->login($user);
         $response = ['user' => $user, 'type' => 'bearer', 'token' => $token];
         $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRegisterUser($response);
+
         return response()->json($result->response, $result->http_status);
     }
     

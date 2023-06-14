@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Constants\Models;
 use App\Traits\TestTrait;
-use Database\Seeders\TestPostSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -49,7 +49,7 @@ class PostControllerTest extends TestCase
     public function testShow(): void
     {
         $user = $this->testUser();
-        $post = $this->getSeededModel(TestPostSeeder::class);
+        $post = $this->getSeededModel(Models::POST);
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
@@ -62,7 +62,7 @@ class PostControllerTest extends TestCase
     public function testUpdate(): void
     {
         $user = $this->testUser();
-        $post = $this->getSeededModel(TestPostSeeder::class);
+        $post = $this->getSeededModel(Models::POST);
         
         $requestData = [         
             'title' => 'Test post updated' . random_int(1, 1000),   
@@ -80,7 +80,7 @@ class PostControllerTest extends TestCase
     public function testDelete(): void
     {
         $user = $this->testUser();
-        $post = $this->getSeededModel(TestPostSeeder::class);
+        $post = $this->getSeededModel(Models::POST);
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
