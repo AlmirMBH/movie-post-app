@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Helpers\CustomHttpStatusMessages;
-use App\Helpers\LogMessage;
+use App\Constants\CustomHttpStatusMessages;
+use App\Constants\LogMessage;
 use App\Services\CustomResponse;
 use Illuminate\Support\Facades\Log;
 

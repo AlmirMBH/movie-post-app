@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Helpers\RoleHelper;
+use App\Constants\Roles;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserRegisterRequest extends FormRequest
@@ -19,7 +19,7 @@ class UserRegisterRequest extends FormRequest
     public function validationData()
     {
         $data = parent::validationData();
-        $data['role_id'] = RoleHelper::USER;
+        $data['role_id'] = Roles::USER;
 
         return $data;
     }

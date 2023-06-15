@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers;
+namespace App\Constants;
 
 class LogMessage {
     const INSTANCE_CREATED = 'An instance of the model has been created by the user.';

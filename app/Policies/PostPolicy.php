@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Helpers\RoleHelper;
+use App\Constants\Roles;
 use App\Helpers\UserHelper;
 use App\Models\Post;
 use App\Models\User;
@@ -35,7 +35,7 @@ class PostPolicy
      */
     public function create(User $user): bool
     {
-        return $this->userHelper->getLoggedUserRoleId() == RoleHelper::ADMIN;
+        return $this->userHelper->getLoggedUserRoleId() == Roles::ADMIN;
     }
 
     /**
@@ -43,7 +43,7 @@ class PostPolicy
      */
     public function update(User $user, Post $post): bool
     {
-        return $this->userHelper->getLoggedUserRoleId() == RoleHelper::ADMIN;
+        return $this->userHelper->getLoggedUserRoleId() == Roles::ADMIN;
     }
 
     /**
@@ -51,7 +51,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        return $this->userHelper->getLoggedUserRoleId() == RoleHelper::ADMIN;
+        return $this->userHelper->getLoggedUserRoleId() == Roles::ADMIN;
     }
 
     /**
@@ -59,7 +59,7 @@ class PostPolicy
      */
     public function restore(User $user, Post $post): bool
     {
-        return $this->userHelper->getLoggedUserRoleId() == RoleHelper::ADMIN;
+        return $this->userHelper->getLoggedUserRoleId() == Roles::ADMIN;
     }
 
     /**
@@ -67,7 +67,7 @@ class PostPolicy
      */
     public function forceDelete(User $user, Post $post): bool
     {
-        return $this->userHelper->getLoggedUserRoleId() == RoleHelper::ADMIN;
+        return $this->userHelper->getLoggedUserRoleId() == Roles::ADMIN;
     }
 
 }

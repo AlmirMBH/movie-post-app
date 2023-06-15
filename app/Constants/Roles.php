@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Helpers;
+namespace App\Constants;
 
-class RoleHelper {
+class Roles {
 
     const ADMIN = 1;
 

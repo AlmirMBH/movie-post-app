@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Helpers\RoleHelper;
+use App\Constants\Roles;
 use App\Helpers\UserHelper;
 use App\Models\Role;
 use App\Models\User;
@@ -18,7 +18,7 @@ class RolePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $this->userHelper->getLoggedUserRoleId() == RoleHelper::USER;
+        return $this->userHelper->getLoggedUserRoleId() == Roles::USER;
     }
 
     /**
@@ -26,7 +26,7 @@ class RolePolicy
      */
     public function view(User $user, Role $role): bool
     {
-        return $this->userHelper->getLoggedUserRoleId() == RoleHelper::ADMIN;
+        return $this->userHelper->getLoggedUserRoleId() == Roles::ADMIN;
     }
 
     /**
@@ -34,7 +34,7 @@ class RolePolicy
      */
     public function create(User $user): bool
     {
-        return $this->userHelper->getLoggedUserRoleId() == RoleHelper::ADMIN;
+        return $this->userHelper->getLoggedUserRoleId() == Roles::ADMIN;
     }
 
     /**
@@ -42,7 +42,7 @@ class RolePolicy
      */
     public function update(User $user, Role $role): bool
     {
-        return $this->userHelper->getLoggedUserRoleId() == RoleHelper::ADMIN;
+        return $this->userHelper->getLoggedUserRoleId() == Roles::ADMIN;
     }
 
     /**
@@ -50,7 +50,7 @@ class RolePolicy
      */
     public function delete(User $user, Role $role): bool
     {
-        return $this->userHelper->getLoggedUserRoleId() == RoleHelper::ADMIN;
+        return $this->userHelper->getLoggedUserRoleId() == Roles::ADMIN;
     }
 
     /**
@@ -58,7 +58,7 @@ class RolePolicy
      */
     public function restore(User $user, Role $role): bool
     {
-        return $this->userHelper->getLoggedUserRoleId() == RoleHelper::ADMIN;
+        return $this->userHelper->getLoggedUserRoleId() == Roles::ADMIN;
     }
 
     /**
@@ -66,6 +66,6 @@ class RolePolicy
      */
     public function forceDelete(User $user, Role $role): bool
     {
-        return $this->userHelper->getLoggedUserRoleId() == RoleHelper::ADMIN;
+        return $this->userHelper->getLoggedUserRoleId() == Roles::ADMIN;
     }
 }

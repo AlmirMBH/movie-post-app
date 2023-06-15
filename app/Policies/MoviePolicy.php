@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Helpers\RoleHelper;
+use App\Constants\Roles;
 use App\Helpers\UserHelper;
 use App\Models\Movie;
 use App\Models\User;
@@ -34,7 +34,7 @@ class MoviePolicy
      */
     public function create(User $user): bool
     {
-        return $this->userHelper->getLoggedUserRoleId() == RoleHelper::ADMIN;
+        return $this->userHelper->getLoggedUserRoleId() == Roles::ADMIN;
     }
 
     /**
@@ -42,7 +42,7 @@ class MoviePolicy
      */
     public function update(User $user, Movie $movie): bool
     {
-        return $this->userHelper->getLoggedUserRoleId() == RoleHelper::ADMIN;
+        return $this->userHelper->getLoggedUserRoleId() == Roles::ADMIN;
     }
 
     /**
@@ -50,7 +50,7 @@ class MoviePolicy
      */
     public function delete(User $user, Movie $movie): bool
     {
-        return $this->userHelper->getLoggedUserRoleId() == RoleHelper::ADMIN;
+        return $this->userHelper->getLoggedUserRoleId() == Roles::ADMIN;
     }
 
     /**
@@ -58,7 +58,7 @@ class MoviePolicy
      */
     public function restore(User $user, Movie $movie): bool
     {
-        return $this->userHelper->getLoggedUserRoleId() == RoleHelper::ADMIN;
+        return $this->userHelper->getLoggedUserRoleId() == Roles::ADMIN;
     }
 
     /**
@@ -66,6 +66,6 @@ class MoviePolicy
      */
     public function forceDelete(User $user, Movie $movie): bool
     {
-        return $this->userHelper->getLoggedUserRoleId() == RoleHelper::ADMIN;
+        return $this->userHelper->getLoggedUserRoleId() == Roles::ADMIN;
     }
 }
