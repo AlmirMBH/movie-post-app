@@ -16,4 +16,6 @@ class Methods {
 
     const REGISTER = 'register';
 
+    const LOGIN = 'login';
+
 }
