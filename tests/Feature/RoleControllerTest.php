@@ -2,7 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Constants\HttpMethods;
+use App\Constants\Methods;
 use App\Constants\Models;
+use App\Constants\Routes;
 use App\Traits\TestTrait;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -20,7 +23,7 @@ class RoleControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('POST', 'api/roles/create', $requestData);
+        ])->json(HttpMethods::POST, Routes::ROLES . Methods::CREATE, $requestData);
 
         $response->assertStatus(201);
     }
@@ -32,7 +35,7 @@ class RoleControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('GET', 'api/roles/index');
+        ])->json(HttpMethods::GET, Routes::ROLES . Methods::INDEX);
 
         $response->assertStatus(200);
     }
@@ -45,7 +48,7 @@ class RoleControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('GET', 'api/roles/show/' . $role->id);
+        ])->json(HttpMethods::GET, Routes::ROLES . Methods::SHOW . $role->id);
 
         $response->assertStatus(200);
     }
@@ -59,7 +62,7 @@ class RoleControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('PUT', 'api/roles/update/' . $role->id, $requestData);
+        ])->json(HttpMethods::PUT, Routes::ROLES . Methods::UPDATE . $role->id, $requestData);
 
         $response->assertStatus(200);
     }
@@ -72,7 +75,7 @@ class RoleControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('DELETE', 'api/roles/delete/' . $role->id);
+        ])->json(HttpMethods::DELETE, Routes::ROLES . Methods::DELETE . $role->id);
 
         $response->assertStatus(200);
     }

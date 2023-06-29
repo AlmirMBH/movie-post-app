@@ -66,7 +66,7 @@ class PostController extends Controller
     }
 
 
-    public function update(PostUpdateRequest $request, $id): JsonResponse 
+    public function update(int $id, PostUpdateRequest $request): JsonResponse 
     {        
         // $this->authorize('update');
         
@@ -81,7 +81,7 @@ class PostController extends Controller
     }
 
 
-    public function delete($id): JsonResponse 
+    public function delete(int $id): JsonResponse 
     {        
         // $this->authorize('delete');
         

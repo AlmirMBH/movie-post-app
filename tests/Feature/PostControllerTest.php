@@ -2,7 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Constants\HttpMethods;
+use App\Constants\Methods;
 use App\Constants\Models;
+use App\Constants\Routes;
 use App\Traits\TestTrait;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -28,7 +31,7 @@ class PostControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('POST', 'api/posts/create', $requestData);
+        ])->json(HttpMethods::POST, Routes::POSTS . Methods::CREATE, $requestData);
 
         $response->assertStatus(201);
     }
@@ -40,7 +43,7 @@ class PostControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('GET', 'api/posts/index');
+        ])->json(HttpMethods::GET, Routes::POSTS . Methods::INDEX);
 
         $response->assertStatus(200);
     }
@@ -53,7 +56,7 @@ class PostControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('GET', 'api/posts/show/' . $post->slug);
+        ])->json(HttpMethods::GET, Routes::POSTS . Methods::SHOW . $post->slug);
 
         $response->assertStatus(200);
     }
@@ -71,7 +74,7 @@ class PostControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('PUT', 'api/posts/update/' . $post->id, $requestData);
+        ])->json(HttpMethods::PUT, Routes::POSTS . Methods::UPDATE . $post->id, $requestData);
 
         $response->assertStatus(200);
     }
@@ -84,7 +87,7 @@ class PostControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('DELETE', 'api/posts/delete/' . $post->id);
+        ])->json(HttpMethods::DELETE, Routes::POSTS . Methods::DELETE . $post->id);
 
         $response->assertStatus(200);
     }

@@ -67,7 +67,7 @@ class UserController extends Controller
     }
 
 
-    public function update(UserUpdateRequest $request, $id): JsonResponse 
+    public function update(int $id, UserUpdateRequest $request): JsonResponse 
     {
         try {
             $category = $this->userRepository->updateUser($id, $request);
@@ -80,7 +80,7 @@ class UserController extends Controller
     }
 
 
-    public function delete($id): JsonResponse 
+    public function delete(int $id): JsonResponse 
     {
         try {
             $response = $this->userRepository->deleteUser($id);

@@ -2,7 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Constants\HttpMethods;
+use App\Constants\Methods;
 use App\Constants\Models;
+use App\Constants\Routes;
 use App\Traits\TestTrait;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
@@ -27,7 +30,7 @@ class MovieControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('POST', 'api/movies/create', $requestData);
+        ])->json(HttpMethods::POST, Routes::MOVIES . Methods::CREATE, $requestData);
 
         $response->assertStatus(201);
     }
@@ -39,7 +42,7 @@ class MovieControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('GET', 'api/movies/index');
+        ])->json(HttpMethods::GET, Routes::MOVIES . Methods::INDEX);
 
         $response->assertStatus(200);
     }
@@ -52,7 +55,7 @@ class MovieControllerTest extends TestCase
         
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('GET', 'api/movies/show/' . $movie->id);
+        ])->json(HttpMethods::GET, Routes::MOVIES . Methods::SHOW . $movie->id);
 
         $response->assertStatus(200);
     }
@@ -70,7 +73,7 @@ class MovieControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('PUT', 'api/movies/update/' . $movie->id, $requestData);
+        ])->json(HttpMethods::PUT, Routes::MOVIES . Methods::UPDATE . $movie->id, $requestData);
 
         $response->assertStatus(200);
     }
@@ -83,7 +86,7 @@ class MovieControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('DELETE', 'api/movies/delete/' . $movie->id);
+        ])->json(HttpMethods::DELETE, Routes::MOVIES . Methods::DELETE . $movie->id);
 
         $response->assertStatus(200);
     }

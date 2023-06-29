@@ -68,7 +68,7 @@ class MovieController extends Controller
     }
 
 
-    public function update(MovieUpdateRequest $request, $id): JsonResponse 
+    public function update(int $id, MovieUpdateRequest $request): JsonResponse 
     {
         // $this->authorize('update');
 
@@ -83,7 +83,7 @@ class MovieController extends Controller
     }
 
 
-    public function delete($id): JsonResponse 
+    public function delete(int $id): JsonResponse 
     {
         // $this->authorize('delete');   
         

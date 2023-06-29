@@ -2,6 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Constants\HttpMethods;
+use App\Constants\Methods;
+use App\Constants\Routes;
 use App\Traits\TestTrait;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -20,7 +23,7 @@ class UserControllerTest extends TestCase
             'c_password' => 'password'
         ];
 
-        $response = $this->json('POST', 'api/register', $requestData);
+        $response = $this->json(HttpMethods::POST, Routes::API . Methods::REGISTER, $requestData);
         $response->assertStatus(201);
     }
 
@@ -31,7 +34,7 @@ class UserControllerTest extends TestCase
         
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('GET', 'api/users/index');
+        ])->json(HttpMethods::GET, Routes::USERS . Methods::INDEX);
 
         $response->assertStatus(200);
     }
@@ -43,7 +46,7 @@ class UserControllerTest extends TestCase
         
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('GET', 'api/users/show/' . $user['user']->id);
+        ])->json(HttpMethods::GET, Routes::USERS . Methods::SHOW . $user['user']->id);
 
         $response->assertStatus(200);
     }
@@ -56,7 +59,7 @@ class UserControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('PUT', 'api/users/update/' . $user['user']->id, $requestData);
+        ])->json(HttpMethods::PUT, Routes::USERS . Methods::UPDATE . $user['user']->id, $requestData);
 
         $response->assertStatus(200);
     }
@@ -68,7 +71,7 @@ class UserControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('DELETE', 'api/users/delete/' . $user['user']->id);
+        ])->json(HttpMethods::DELETE, Routes::USERS . Methods::DELETE . $user['user']->id);
 
         $response->assertStatus(200);
     }

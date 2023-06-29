@@ -2,7 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Constants\HttpMethods;
+use App\Constants\Methods;
 use App\Constants\Models;
+use App\Constants\Routes;
 use App\Traits\TestTrait;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -27,7 +30,7 @@ class ImageControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('POST', 'api/images/create', $requestData);
+        ])->json(HttpMethods::POST, Routes::IMAGES . Methods::CREATE, $requestData);
 
         $response->assertStatus(201);
     }
@@ -39,7 +42,7 @@ class ImageControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('GET', 'api/images/index');
+        ])->json(HttpMethods::GET, Routes::IMAGES . Methods::INDEX);
 
         $response->assertStatus(200);
     }
@@ -52,7 +55,7 @@ class ImageControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('GET', 'api/images/show/' . $image->id);
+        ])->json(HttpMethods::GET, Routes::IMAGES . Methods::SHOW . $image->id);
 
         $response->assertStatus(200);
     }
@@ -70,7 +73,7 @@ class ImageControllerTest extends TestCase
 
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('PUT', 'api/images/update/' . $image->id, $requestData);
+        ])->json(HttpMethods::PUT, Routes::IMAGES . Methods::UPDATE . $image->id, $requestData);
 
         $response->assertStatus(200);
     }
@@ -83,7 +86,7 @@ class ImageControllerTest extends TestCase
         
         $response = $this->withHeaders([
             'Authorization' => 'Bearer ' . $user['token'],
-        ])->json('DELETE', 'api/images/delete/' . $image->id);
+        ])->json(HttpMethods::DELETE, Routes::IMAGES . Methods::DELETE . $image->id);
 
         $response->assertStatus(200);
     }

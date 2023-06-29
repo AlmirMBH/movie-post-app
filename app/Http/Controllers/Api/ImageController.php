@@ -63,7 +63,7 @@ class ImageController extends Controller
     }
 
 
-    public function update(ImageUpdateRequest $request, int $id): JsonResponse 
+    public function update(int $id, ImageUpdateRequest $request): JsonResponse 
     {
         try {
             $category = $this->imageRepository->updateImage($id, $request);
