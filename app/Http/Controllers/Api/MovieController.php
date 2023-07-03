@@ -107,24 +107,13 @@ class MovieController extends Controller
         $favoriteMovieAdded = $user->favoriteMovies()->wherePivot('movie_id', $movieId)->exists();
         
         try {
-            if ($favoriteMovieAdded) {
-                if ($addFavoriteMovie) {                    
-                    $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogMovieSelected();
-                } else {
-                    $response =$user->favoriteMovies()->detach($movieId);                    
-                    $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogRetrieveOneInstance($response);
-                }
-            } elseif ($addFavoriteMovie) {
-                if ($movieId) {
-                    $user->favoriteMovies()->attach($movieId);
-                    $response = $this->movieRepository->findById($movieId);
-                    $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogCreatedOneInstance($response);
-                } else {                
-                    $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogNoMovieSelected();
-                }
-            } else {
-                $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogNoMovieSelectedAndLiked();
-            }        
+            $response = match (true) {
+                (! $favoriteMovieAdded && $addFavoriteMovie) => $this->addFavoriteMovie($user, $movieId),
+                ($favoriteMovieAdded && !$addFavoriteMovie) => $this->removeFavoriteMovie($user, $movieId),
+                default => (object) ['status' => 'Bad request!'],
+            };         
+
+            $result = $this->setLogMessagesAndHttpResponse->setHttpResponseAndLogCreatedOneInstance($response);
         } 
         catch (\Exception $e) {
             $result = $this->setLogMessagesAndHttpResponse->setExceptionAndLogNotRetrieveInstances($e);
@@ -134,6 +123,17 @@ class MovieController extends Controller
     }
 
 
+    public function addFavoriteMovie($user, $movieId){        
+        $user->favoriteMovies()->attach($movieId);
+        return $this->movieRepository->findById($movieId);
+    }
+
+
+    public function removeFavoriteMovie($user, $movieId){
+        $user->favoriteMovies()->detach($movieId);                    
+        return (object) ['message' => 'Removed successfully!'];
+    } 
+    
 
     protected function filter(MovieFilterRequest $request): JsonResponse
     {   

@@ -22,11 +22,11 @@ class SetLogMessagesAndHttpResponse {
     {        
         if (!isset($response)) {
             Log::stack(['custom_error'])->error(LogMessage::USER_NOT_REGISTERED);
-            return $this->customResponse->httpResponse(null, CustomHttpStatusMessages::BAD_REQUEST);
+            return $this->customResponse->httpResponse(CustomHttpStatusMessages::BAD_REQUEST);
         }
 
         Log::channel('custom_info')->info(LogMessage::USER_REGISTERED);
-        return $this->customResponse->httpResponse($response, CustomHttpStatusMessages::CREATED);
+        return $this->customResponse->httpResponse(CustomHttpStatusMessages::CREATED, $response);
     }
 
 
@@ -34,18 +34,18 @@ class SetLogMessagesAndHttpResponse {
     {    
         if (!isset($response)) {
             Log::stack(['custom_error'])->error(LogMessage::USER_NOT_LOGGED_IN);
-            return $this->customResponse->httpResponse(null, CustomHttpStatusMessages::UNAUTHORIZED);
+            return $this->customResponse->httpResponse(CustomHttpStatusMessages::UNAUTHORIZED);
         }
 
         Log::channel('custom_info')->error(LogMessage::USER_LOGGED_IN);
-        return $this->customResponse->httpResponse($response, CustomHttpStatusMessages::OK);
+        return $this->customResponse->httpResponse(CustomHttpStatusMessages::OK, $response);
     }
 
 
     public function setExceptionAndLogUnauthorizedLoginAttempt(): object
     {
         Log::stack(['custom_error'])->error("A user has not been logged in.");
-        return $this->customResponse->httpResponse(null, CustomHttpStatusMessages::UNAUTHORIZED);
+        return $this->customResponse->httpResponse(CustomHttpStatusMessages::UNAUTHORIZED);
     }
 
 
@@ -60,18 +60,17 @@ class SetLogMessagesAndHttpResponse {
     {
         if (empty($response)) {
             Log::stack(['custom_error'])->error(LogMessage::INSTANCE_NOT_CREATED);
-            return $this->customResponse->httpResponse(null, CustomHttpStatusMessages::BAD_REQUEST);
+            return $this->customResponse->httpResponse(CustomHttpStatusMessages::BAD_REQUEST);
         }
-
         Log::stack(['custom_info'])->info(LogMessage::INSTANCE_CREATED);
-        return $this->customResponse->httpResponse($response, CustomHttpStatusMessages::CREATED);
+        return $this->customResponse->httpResponse(CustomHttpStatusMessages::CREATED, $response);
     }
 
 
     public function setExceptionAndLogNotCreatedInstance(\Exception $e): object
     {
         Log::stack(['custom_error'])->error(LogMessage::INSTANCE_NOT_CREATED_WITH_ERROR . $e->getMessage());
-        return $this->customResponse->httpResponse(null, CustomHttpStatusMessages::BAD_REQUEST);
+        return $this->customResponse->httpResponse(CustomHttpStatusMessages::BAD_REQUEST);
     }
 
 
@@ -79,18 +78,18 @@ class SetLogMessagesAndHttpResponse {
     {
         if (! isset($response) || (count($response) < 1)) {
             Log::stack(['custom_error'])->info(LogMessage::INSTANCES_NOT_RETRIEVED);
-            return $this->customResponse->httpResponse($response, CustomHttpStatusMessages::BAD_REQUEST);
+            return $this->customResponse->httpResponse(CustomHttpStatusMessages::BAD_REQUEST, $response);
         }
 
         Log::stack(['custom_info'])->info(LogMessage::INSTANCES_RETRIEVED);
-        return $this->customResponse->httpResponse($response, CustomHttpStatusMessages::OK);
+        return $this->customResponse->httpResponse(CustomHttpStatusMessages::OK, $response);
     }
 
 
     public function setExceptionAndLogNotRetrieveInstances(\Exception $e): object
     {
         Log::stack(['custom_error'])->error(LogMessage::INSTANCES_NOT_RETRIEVED_WITH_ERROR . $e->getMessage());
-        return $this->customResponse->httpResponse(null, CustomHttpStatusMessages::BAD_REQUEST);
+        return $this->customResponse->httpResponse(CustomHttpStatusMessages::BAD_REQUEST);
     }
 
 
@@ -98,18 +97,18 @@ class SetLogMessagesAndHttpResponse {
     {
         if(! $response || empty($response) ){
             Log::stack(['custom_error'])->error(LogMessage::INSTANCE_NOT_RETRIEVED);
-            return $this->customResponse->httpResponse(null, CustomHttpStatusMessages::NO_CONTENT);
+            return $this->customResponse->httpResponse(CustomHttpStatusMessages::NO_CONTENT);
         }
 
         Log::stack(['custom_info'])->info(LogMessage::INSTANCE_RETRIEVED);
-        return $this->customResponse->httpResponse($response, CustomHttpStatusMessages::OK);
+        return $this->customResponse->httpResponse(CustomHttpStatusMessages::OK, $response);
     }
 
 
     public function setExceptionAndLogNotRetrievedOneInstance(\Exception $e): object
     {
         Log::stack(['custom_error'])->error(LogMessage::INSTANCE_NOT_RETRIEVED_WITH_ERROR . $e->getMessage());
-        return $this->customResponse->httpResponse(null, CustomHttpStatusMessages::BAD_REQUEST);
+        return $this->customResponse->httpResponse(CustomHttpStatusMessages::BAD_REQUEST);
     }
 
 
@@ -117,18 +116,18 @@ class SetLogMessagesAndHttpResponse {
     {
         if (empty($response)) {
             Log::stack(['custom_error'])->error(LogMessage::INSTANCE_NOT_UPDATED);
-            return $this->customResponse->httpResponse(null, CustomHttpStatusMessages::NOT_FOUND);
+            return $this->customResponse->httpResponse(CustomHttpStatusMessages::NOT_FOUND);
         }
 
         Log::stack(['custom_info'])->info(LogMessage::INSTANCE_UPDATED);
-        return $this->customResponse->httpResponse($response, CustomHttpStatusMessages::OK);
+        return $this->customResponse->httpResponse(CustomHttpStatusMessages::OK, $response);
     }
 
 
     public function setExceptionAndLogNotUpdatedInstance(\Exception $e): object
     {
         Log::stack(['custom_error'])->error(LogMessage::INSTANCE_NOT_UPDATED_WITH_ERROR . $e->getMessage());
-        return $this->customResponse->httpResponse(null, CustomHttpStatusMessages::BAD_REQUEST);
+        return $this->customResponse->httpResponse(CustomHttpStatusMessages::BAD_REQUEST);
     }
 
 
@@ -136,18 +135,18 @@ class SetLogMessagesAndHttpResponse {
     {
         if (! $response) {
             Log::stack(['custom_error'])->error(LogMessage::INSTANCE_NOT_DELETED);
-            return $this->customResponse->httpResponse(null, CustomHttpStatusMessages::NOT_FOUND);
+            return $this->customResponse->httpResponse(CustomHttpStatusMessages::NOT_FOUND);
         }
 
         Log::stack(['custom_error'])->info(LogMessage::INSTANCE_DELETED);
-        return $this->customResponse->httpResponse($response, CustomHttpStatusMessages::DELETED);
+        return $this->customResponse->httpResponse(CustomHttpStatusMessages::DELETED, $response);
     }
 
 
     public function setExceptionAndLogNotDeletedInstance(\Exception $e): object
     {
         Log::stack(['custom_error'])->error(LogMessage::INSTANCE_NOT_DELETED_WITH_ERROR . $e->getMessage());
-        return $this->customResponse->httpResponse(null, CustomHttpStatusMessages::NOT_FOUND);
+        return $this->customResponse->httpResponse(CustomHttpStatusMessages::NOT_FOUND);
     }
 
 

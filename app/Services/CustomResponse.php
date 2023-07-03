@@ -27,7 +27,7 @@ class CustomResponse{
 
 
 
-    public function httpResponse($response = null, string $status): object 
+    public function httpResponse(string $status, $response = null): object 
     {
         $this->$status['response'] = $response ?? $this->$status['response'];
         return  (object) $this->$status;
